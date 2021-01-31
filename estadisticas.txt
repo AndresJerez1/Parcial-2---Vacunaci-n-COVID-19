@@ -1,0 +1,7 @@
+CIUDAD      No. Habitantes   No. Contagiados   No. Hospitales   No. Personal de salud   No. Personas mayores de 70 años   Distancia(Bta, Km) 
+
+Bogotá         8380801            611000           2274                 200000                   921800                            0
+Bucaramanga    581130             83000            261                  50000                    63900                           424.2
+Cali           2496346            173000           850                  100000                   274500                          452.4
+Medellín       2569007            325000           900                  120000                   282500                          416.4
+Barranquilla   1239804            110000           724                  90000                    136400                          1000.9
