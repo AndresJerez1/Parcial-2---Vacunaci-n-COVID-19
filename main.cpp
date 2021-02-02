@@ -9,9 +9,9 @@
 
 using namespace std;
 
-fstream archivo; //Lectura del archivo
+fstream archivo; 
 
-void leerArchivo()
+void leerArchivo()  //Lectura del archivo
   {
     ifstream archivo("estadisticas.txt",ios::in);
     string a;
@@ -53,11 +53,11 @@ void calculos(int cantidad){    //Función global de los cálculos
   int dosis[5];
   int camiones[5];
   int paradas[5];
+  int tiempo_dias[5];
   int persalud, mayores, resto;
   float personal[5],vac_hora_per[5],tiempo[5];
 
   ifstream archivo("estadisticas.txt",ios::in);
-  string a;
   archivo.is_open();
   int A[5][7];
 
@@ -65,7 +65,7 @@ void calculos(int cantidad){    //Función global de los cálculos
 
     for(int j=0;j<7;j++){
 
-      archivo >> A[i][j];
+      archivo >> A[i][j];   //Matriz del archivo con las estadisticas
 
       A[0][4]=90000;
       A[1][4]=200000;
@@ -136,11 +136,11 @@ void calculos(int cantidad){    //Función global de los cálculos
     cout<<"\nEn Barranquilla: ";
     cout<<"Se vacunarán "<<(A[0][4]+A[0][5])<<" personas mayores de 70 años y pertenecientes al personal de salud y "<< (cantidad-(A[0][4]+A[0][5]))<<" del resto"<<endl;
   }else if(cantidad>A[0][4]&&(cantidad<(A[0][4]+A[0][5]))){
-     cout<<"\nEn Barranquilla: ";
-      cout<<"Se vacunarán "<<A[0][4]<<" personas pertenecientes al personal de salud y "<<(cantidad-A[0][4])<<" personas mayores de 70 años"<<endl;
+    cout<<"\nEn Barranquilla: ";
+    cout<<"Se vacunarán "<<A[0][4]<<" personas pertenecientes al personal de salud y "<<(cantidad-A[0][4])<<" personas mayores de 70 años"<<endl;
   }else if(cantidad<A[0][4]){
-      cout<<"\nEn Barranquilla: ";
-      cout<<"Se vacunarán "<<cantidad<<" personas pertenecientes al personal de salud"<<endl;
+    cout<<"\nEn Barranquilla: ";
+    cout<<"Se vacunarán "<<cantidad<<" personas pertenecientes al personal de salud"<<endl;
   }
 
   if(cantidad>(A[1][4]+A[1][5])){
@@ -190,37 +190,38 @@ void calculos(int cantidad){    //Función global de los cálculos
 
     cout<<"\nLos siguientes son los tiempos que se gastarán en aplicar todas las vacunas en cada ciudad: \n";
 
-    for(int k=0;k<5;k++){
+    for(int k=0;k<5;k++){    //Cálculo del tiempo en aplicar las vacunas
+
       personal[k]=0.3*(A[k][4]);
-
       vac_hora_per[k]=personal[k]*15;
-
       tiempo[k]=cantidad/(vac_hora_per[k]);
+      tiempo_dias[k]=(tiempo[k]/24)+1;
 
     }
     
-     cout<<"\n\n------------------------------------------TIEMPO DE VACUNACIÓN (HORAS)------------------------------------------"<<endl;
+    cout<<"\n\n------------------------------------------TIEMPO DE VACUNACIÓN (HORAS)------------------------------------------"<<endl;
 
-    cout<<"\nEl tiempo que tardará Barranquilla en aplicar todas las vacunas será: "<<tiempo[0]<<" horas"<<endl;
-    cout<<"El tiempo que tardará Bogotá en aplicar todas las vacunas será: "<<tiempo[1]<<" horas"<<endl;
-    cout<<"El tiempo que tardará Bucaramanga en aplicar todas las vacunas será: "<<tiempo[2]<<" horas"<<endl;
-    cout<<"El tiempo que tardará Cali en aplicar todas las vacunas será: "<<tiempo[3]<<" horas"<<endl;
-    cout<<"El tiempo que tardará Medellín en aplicar todas las vacunas será: "<<tiempo[4]<<" horas"<<endl;
+    cout<<"\nEl tiempo que tardará Barranquilla en aplicar todas las vacunas será: "<<tiempo[0]<<" horas y "<<tiempo_dias[0]<<" días laborales"<<endl;
+    cout<<"El tiempo que tardará Bogotá en aplicar todas las vacunas será: "<<tiempo[1]<<" horas y "<<tiempo_dias[1]<<" días laborales"<<endl;
+    cout<<"El tiempo que tardará Bucaramanga en aplicar todas las vacunas será: "<<tiempo[2]<<" horas y "<<tiempo_dias[2]<<" días laborales"<<endl;
+    cout<<"El tiempo que tardará Cali en aplicar todas las vacunas será: "<<tiempo[3]<<" horas y "<<tiempo_dias[3]<<" días laborales"<<endl;
+    cout<<"El tiempo que tardará Medellín en aplicar todas las vacunas será: "<<tiempo[4]<<" horas y "<<tiempo_dias[4]<<" días laborales"<<endl;
 
     ofstream datos;
-        datos.open("Datos_calculados.txt");
-        datos<<"**********************************************************************************************************************************************\n";
-        datos<<"NÚMERO DE VACUNAS: "<<setw(10)<<cantidad<<endl;
-        cout<<endl;
-        datos<<left<<setw(25)<<"CIUDAD"<<left<<setw(25)<<"DOSIS"<<left<<setw(25)<<"CAMIONES"<<left<<setw(25)<<"PARADAS"<<left<<setw(25)<<"TIEMPO(Horas)"<<endl;
-        datos<<left<<setw(25)<<"Barranquilla"<<left<<setw(25)<<dosis[0]<<left<<setw(25)<<camiones[0]<<left<<setw(25)<<paradas[0]<<left<<setw(25)<<tiempo[0]<<endl;
-        datos<<left<<setw(25)<<"Bogotá"<<left<<setw(25)<<dosis[1]<<left<<setw(25)<<camiones[1]<<left<<setw(25)<<paradas[1]<<left<<setw(25)<<tiempo[1]<<endl;
-        datos<<left<<setw(25)<<"Bucaramanga"<<left<<setw(25)<<dosis[2]<<left<<setw(25)<<camiones[2]<<left<<setw(25)<<paradas[2]<<left<<setw(25)<<tiempo[2]<<endl;
-        datos<<left<<setw(25)<<"Cali"<<left<<setw(25)<<dosis[3]<<left<<setw(25)<<camiones[3]<<left<<setw(25)<<paradas[3]<<left<<setw(25)<<tiempo[3]<<endl;
-        datos<<left<<setw(25)<<"Medellín"<<left<<setw(25)<<dosis[4]<<left<<setw(25)<<camiones[4]<<left<<setw(25)<<paradas[4]<<left<<setw(25)<<tiempo[4]<<endl;
+    datos.open("Datos_calculados.txt");
+    datos<<"**********************************************************************************************************************************************\n";
+    datos<<"NÚMERO DE VACUNAS: "<<setw(10)<<cantidad<<endl;
+    cout<<endl;
+    cout<<endl; 
+    datos<<left<<setw(25)<<"CIUDAD"<<left<<setw(25)<<"DOSIS"<<left<<setw(25)<<"CAMIONES"<<left<<setw(25)<<"PARADAS"<<left<<setw(25)<<"TIEMPO(Horas)"<<left<<setw(25)<<"TIEMPO(Días)"<<endl;
+    datos<<left<<setw(25)<<"Barranquilla"<<left<<setw(25)<<dosis[0]<<left<<setw(25)<<camiones[0]<<left<<setw(25)<<paradas[0]<<left<<setw(25)<<tiempo[0]<<left<<setw(25)<<tiempo_dias[0]<<endl;
+    datos<<left<<setw(25)<<"Bogotá"<<left<<setw(25)<<dosis[1]<<left<<setw(25)<<camiones[1]<<left<<setw(25)<<paradas[1]<<left<<setw(25)<<tiempo[1]<<left<<setw(25)<<tiempo_dias[1]<<endl;
+    datos<<left<<setw(25)<<"Bucaramanga"<<left<<setw(25)<<dosis[2]<<left<<setw(25)<<camiones[2]<<left<<setw(25)<<paradas[2]<<left<<setw(25)<<tiempo[2]<<left<<setw(25)<<tiempo_dias[2]<<endl;
+    datos<<left<<setw(25)<<"Cali"<<left<<setw(25)<<dosis[3]<<left<<setw(25)<<camiones[3]<<left<<setw(25)<<paradas[3]<<left<<setw(25)<<tiempo[3]<<left<<setw(25)<<tiempo_dias[3]<<endl;
+    datos<<left<<setw(25)<<"Medellín"<<left<<setw(25)<<dosis[4]<<left<<setw(25)<<camiones[4]<<left<<setw(25)<<paradas[4]<<left<<setw(25)<<tiempo[4]<<left<<setw(25)<<tiempo_dias[4]<<endl;
         
-        datos<<"**********************************************************************************************************************************************";
-        datos.close();
+    datos<<"**********************************************************************************************************************************************";
+    datos.close();
 };
 
 
@@ -238,7 +239,7 @@ int main() {
 
     for(int j=0;j<7;j++){
 
-      archivo >> A[i][j];
+      archivo >> A[i][j];   //Matríz de las estadisticas
      
       A[0][1]=1239804;
       A[1][1]=8380801;
@@ -285,7 +286,7 @@ int main() {
   //*************************MENÚ*****************************************
   
      
-    while(salir!='0'){
+  while(salir!='0'){
 
     cout<<"\nSi quiere ejecutar el programa, presione cualquier tecla y ejecutelo.\n(Si quiere salir del programa presione la tecla 0)   "<<endl;           //Opciones para ingresar o vender producto
     cin>>salir;
@@ -303,12 +304,12 @@ int main() {
 
     if(eleccion < 0 || eleccion >4){
       cout << "Opcion no valida!\nIngrese nuevamente su elección" << endl;
-        eleccion = entrada();
+      eleccion = entrada();
     }
 
     switch(eleccion){
 
-      case 1:
+      case 1:  //Actualizar los contagiados
         cout<<"\nA qué ciudad quiere actualizarle el número de contagiados: \n";
         cout<<left<<setw(15)<<"1. Barranquilla: "<<A[0][2]<<" contagiados\n";
         cout<<left<<setw(15)<<"2. Bogotá: "<<A[1][2]<<" contagiados\n";
@@ -321,37 +322,62 @@ int main() {
           case 1:
           cout<<"Ingrese el nuevo número de contagiados: \n";
           A[0][2]=entrada();
-          cout<<left<<setw(15)<<"1. Barranquilla: "<<A[0][2]<<" contagiados\n";
+          if(A[0][2]>A[0][1]){
+            cout<<"Valor inválido, el número de contagiados no puede ser mayor a la población.\nPor favor ingrese un valor válido"<<endl;
+            opcion1=entrada();
+          }else{
+            cout<<left<<setw(15)<<"1. Barranquilla: "<<A[0][2]<<" contagiados\n";
+          }
           break;
 
           case 2:
           cout<<"Ingrese el nuevo número de contagiados: \n";
           A[1][2]=entrada();
-          cout<<left<<setw(15)<<"2. Bogotá: "<<A[1][2]<<" contagiados\n";
+          if(A[1][2]>A[1][1]){
+            cout<<"Valor inválido, el número de contagiados no puede ser mayor a la población.\nPor favor ingrese un valor válido"<<endl;
+            opcion1=entrada();
+          }else{         
+            cout<<left<<setw(15)<<"2. Bogotá: "<<A[1][2]<<" contagiados\n";
+          }
           break;
 
           case 3:
           cout<<"Ingrese el nuevo número de contagiados: \n";
           A[2][2]=entrada();
-          cout<<left<<setw(15)<<"3. Bucaramanga: "<<A[2][2]<<" contagiados\n";
+          if(A[2][2]>A[2][1]){
+            cout<<"Valor inválido, el número de contagiados no puede ser mayor a la población.\nPor favor ingrese un valor válido"<<endl;
+            opcion1=entrada();
+          }else{         
+            cout<<left<<setw(15)<<"3. Bucaramanga: "<<A[2][2]<<" contagiados\n";
+          }
           break;
 
           case 4:
           cout<<"Ingrese el nuevo número de contagiados: \n";
           A[3][2]=entrada();
-          cout<<left<<setw(15)<<"4. Cali: "<<A[3][2]<<" contagiados\n";
+          if(A[3][2]>A[3][1]){
+            cout<<"Valor inválido, el número de contagiados no puede ser mayor a la población.\nPor favor ingrese un valor válido"<<endl;
+            opcion1=entrada();
+          }else{         
+            cout<<left<<setw(15)<<"4. Cali: "<<A[3][2]<<" contagiados\n";
+          }
           break;
 
           case 5:
           cout<<"Ingrese el nuevo número de contagiados: \n";
           A[4][2]=entrada();
-          cout<<left<<setw(15)<<"5. Medellín: "<<A[4][2]<<" contagiados\n";
+          if(A[4][2]>A[4][1]){
+            cout<<"Valor inválido, el número de contagiados no puede ser mayor a la población.\nPor favor ingrese un valor válido"<<endl;
+            opcion1=entrada();
+          }else{         
+            cout<<left<<setw(15)<<"5. Medellín: "<<A[4][2]<<" contagiados\n";
+          }
           break;
         }
         cout<<endl;
         break;
 
-      case 2:
+      case 2:  //Ver la tabla para cada ciudad
         cout<<"Elija la ciudad que quiere revisar: ";
         cout<<"\n1. Barranquilla ";
         cout<<"\n2. Bogotá ";
@@ -396,7 +422,7 @@ int main() {
           break;
 
         
-      case 3:
+      case 3:   //Realizar los cálculos y crear el txt
 
         cout<<"**************************************************************************************************************************************************\n";
         cout<<"Ingrese el número de dosis de la vacuna que se van a distribuir \n";
@@ -405,6 +431,7 @@ int main() {
         cout<<endl;
         break;
     }
+    cout<<"**************************************************************************************************************************************************\n";
     
   }
   cout<<"El programa ha finalizado. Gracias por usarlo"<<endl;
